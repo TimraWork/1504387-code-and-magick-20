@@ -1,5 +1,7 @@
 'use strict';
 (function () {
+
+  var setupSubmit = document.querySelector('.setup-submit');
   var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
   var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
   var wizardFireBall = document.querySelector('.setup-fireball-wrap');
@@ -110,5 +112,26 @@
     userDialog.classList.add('hidden');
     destroyUserDialogEventHandlers();
   };
+
+  var onLoad = function () {
+    userDialog.classList.add('hidden');
+  };
+
+  var onError = function (errorMessage) {
+    var node = document.createElement('div');
+    node.style = ' background-color: red; font-size: 20px; padding: 10px; text-align: center;';
+    node.textContent = 'Данные не сохранены! Ошибка сервера: ' + errorMessage;
+    document.body.insertAdjacentElement('afterBegin', node);
+    setupSubmit.insertAdjacentElement('beforeBegin', node);
+    setTimeout(function () {
+      node.remove();
+    }, 4000);
+  };
+
+  var form = userDialog.querySelector('.setup-wizard-form');
+  form.addEventListener('submit', function (evt) {
+    window.backend.save(new FormData(form), onLoad, onError);
+    evt.preventDefault();
+  });
 
 })();
