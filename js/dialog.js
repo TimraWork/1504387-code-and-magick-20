@@ -2,27 +2,13 @@
 (function () {
 
   var setupSubmit = document.querySelector('.setup-submit');
-  var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
-  var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
-  var wizardFireBall = document.querySelector('.setup-fireball-wrap');
-
-  var onCoatColorChange = function () {
-    window.util.colorize(wizardCoat, 'coat');
-  };
-
-  var onEyesColorChange = function () {
-    window.util.colorize(wizardEyes, 'eyes');
-  };
-
-  var onFireBallColorChange = function () {
-    window.util.colorize(wizardFireBall, 'fireball');
-  };
+  var setupWizardForm = document.querySelector('.setup-wizard-form');
 
   var userNameInput = document.querySelector('.setup-user-name');
   var userNameMinLength = userNameInput.getAttribute('minlength');
   var userNameMaxLength = userNameInput.getAttribute('maxlength');
 
-  var onNameInputInvalid = function () {
+  var onNameInputChange = function () {
     if (userNameInput.validity.tooShort) {
       userNameInput.setCustomValidity('имя персонажа не может содержать менее ' + userNameMinLength + ' символов');
     } else if (userNameInput.validity.tooLong) {
@@ -32,12 +18,7 @@
     } else {
       userNameInput.setCustomValidity('');
     }
-  };
-  var onNameInputChange = function () {
-    var valueLength = userNameInput.value.length;
-    if (valueLength > userNameMinLength || valueLength < userNameMaxLength) {
-      userNameInput.setCustomValidity('');
-    }
+    setupWizardForm.reportValidity();
   };
 
   var userDialog = document.querySelector('.setup');
@@ -76,12 +57,9 @@
     userDialogBtnClose.addEventListener('keydown', onUserDialogEnterPress);
     userDialogBtnClose.addEventListener('click', onUserDialogClose);
 
-    userNameInput.addEventListener('invalid', onNameInputInvalid);
     userNameInput.addEventListener('input', onNameInputChange);
 
-    wizardCoat.addEventListener('click', onCoatColorChange);
-    wizardEyes.addEventListener('click', onEyesColorChange);
-    wizardFireBall.addEventListener('click', onFireBallColorChange);
+    window.wizard.initHandlers();
 
     window.dragAndDrop.init();
   };
@@ -92,12 +70,9 @@
     userDialogBtnClose.removeEventListener('keydown', onUserDialogEnterPress);
     userDialogBtnClose.removeEventListener('click', onUserDialogClose);
 
-    userNameInput.removeEventListener('invalid', onNameInputInvalid);
     userNameInput.removeEventListener('input', onNameInputChange);
 
-    wizardCoat.removeEventListener('click', onCoatColorChange);
-    wizardEyes.removeEventListener('click', onEyesColorChange);
-    wizardFireBall.removeEventListener('click', onFireBallColorChange);
+    window.wizard.destroyHandlers();
 
     window.dragAndDrop.destroy();
   };
@@ -121,7 +96,6 @@
     var node = document.createElement('div');
     node.style = ' background-color: red; font-size: 20px; padding: 10px; text-align: center;';
     node.textContent = 'Данные не сохранены! Ошибка сервера: ' + errorMessage;
-    document.body.insertAdjacentElement('afterBegin', node);
     setupSubmit.insertAdjacentElement('beforeBegin', node);
     setTimeout(function () {
       node.remove();
