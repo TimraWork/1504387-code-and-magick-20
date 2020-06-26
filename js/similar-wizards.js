@@ -24,15 +24,12 @@
 
   var getRating = function (wizard) {
     var rating = 0;
-
     if (wizard.colorCoat === coatColor) {
       rating += 2;
     }
-
     if (wizard.colorEyes === eyesColor) {
       rating += 1;
     }
-
     return rating;
   };
 
@@ -41,9 +38,8 @@
       return 1;
     } else if (left < right) {
       return -1;
-    } else {
-      return 0;
     }
+    return 0;
   };
 
   var coatColor;
@@ -54,9 +50,7 @@
     eyesColor = eyes ? eyes : eyesColor;
 
     renderSimilarWizards(wizards.sort(function (left, right) {
-
       var ratingDiff = getRating(right) - getRating(left);
-
       if (ratingDiff === 0) {
         ratingDiff = compareNames(left.name, right.name);
       }
