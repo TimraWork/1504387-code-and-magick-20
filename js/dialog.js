@@ -70,7 +70,6 @@
     userDialogBtnClose.removeEventListener('keydown', onUserDialogEnterPress);
     userDialogBtnClose.removeEventListener('click', onUserDialogClose);
 
-    userNameInput.removeEventListener('invalid', onNameInputInvalid);
     userNameInput.removeEventListener('input', onNameInputChange);
 
     window.wizard.destroyHandlers();
