@@ -53,27 +53,21 @@
 
   var initUserDialogEventHandlers = function () {
     document.addEventListener('keydown', onUserDialogEscPress);
-
     userDialogBtnClose.addEventListener('keydown', onUserDialogEnterPress);
     userDialogBtnClose.addEventListener('click', onUserDialogClose);
-
     userNameInput.addEventListener('input', onNameInputChange);
-
+    window.avatar.init();
     window.wizard.initHandlers();
-
     window.dragAndDrop.init();
   };
 
   var destroyUserDialogEventHandlers = function () {
     document.removeEventListener('keydown', onUserDialogEscPress);
-
     userDialogBtnClose.removeEventListener('keydown', onUserDialogEnterPress);
     userDialogBtnClose.removeEventListener('click', onUserDialogClose);
-
     userNameInput.removeEventListener('input', onNameInputChange);
-
+    window.avatar.destroy();
     window.wizard.destroyHandlers();
-
     window.dragAndDrop.destroy();
   };
 
