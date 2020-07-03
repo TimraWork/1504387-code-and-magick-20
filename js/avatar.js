@@ -32,6 +32,7 @@
         });
         reader.readAsDataURL(file);
       } else {
+        fileChooser.value = '';
         showError();
       }
     } else {
